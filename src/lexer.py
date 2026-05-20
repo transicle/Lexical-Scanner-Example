@@ -46,9 +46,6 @@ class Lexer():
     
     ####### Helper functions #######
     
-    def is_whitespace(self, input: str):
-        return input.isspace()
-    
     def is_alnum(self, input: str):
         return input.isalnum()
 
@@ -73,6 +70,9 @@ class Lexer():
 
             self.consume()
             self.consume()
+    
+    def skip_whitespace(self):
+        pass
     
 
     ####### Primary scanner functions #######
