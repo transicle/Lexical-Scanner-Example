@@ -17,6 +17,7 @@ class Lexer():
         self.line = line
         self.col = col
 
+
     ####### Core functions #######
 
     # The purpose of core functions is generally just to make *our life easier*.
@@ -41,6 +42,7 @@ class Lexer():
             return False
         self.consume()
         return True
+
     
     ####### Helper functions #######
     
@@ -49,6 +51,29 @@ class Lexer():
     
     def is_alnum(self, input: str):
         return input.isalnum()
+
+    # Although not in the example in itself, I'll show you how to support multi-lined comments :)
+    def skip_comment(self): # For languages like Python, we'd be able to peek only the current token,
+                          #   but for our sample language, we use `//`, so we need to peek 2 ahead.
+        if self.peek() == "/" and self.peek_next() == "/":
+            self.consume()
+            self.consume()
+
+            while self.peek() not in ["\n", "\0"]:
+                self.consume()
+        elif self.peek() == "/" and self.peek_next() == "*":
+            self.consume()
+            self.consume()
+
+            while not (self.peek() == "*" and self.peek_next() == "/"):
+                if self.peek() == "\0":
+                    raise Exception("Unterminated multi-lined comment")
+                
+                self.consume()
+
+            self.consume()
+            self.consume()
+    
 
     ####### Primary scanner functions #######
 
