@@ -1,6 +1,12 @@
 # Lexical-Scanner-Example
 Writing your own lexical scanner / tokenizer from scratch is the easiest aspect of any compiler, learn how to write your own from scratch to avoid relying on tools to do it for you.
 
+Run the lexical scanner yourself to see the results:
+
+```bash
+$ python ./src/main.py
+```
+
 ## Example Language
 
 ```

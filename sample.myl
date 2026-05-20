@@ -1,0 +1,10 @@
+var age = 18;
+
+func is18() {
+    if age >= 18 {
+        return 0;
+    }
+    return 1;
+}
+
+// Comments are awesome!
