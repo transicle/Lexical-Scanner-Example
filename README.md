@@ -1,6 +1,13 @@
 # Lexical-Scanner-Example
 Writing your own lexical scanner / tokenizer from scratch is the easiest aspect of any compiler, learn how to write your own from scratch to avoid relying on tools to do it for you.
 
+<details>
+    <summary>Preview Results</summary>
+    <br>
+    <img width="506" height="549" alt="image" src="https://github.com/user-attachments/assets/fccbc34a-8f2d-4a85-aad2-09e65cde2108" />
+    <br>
+</details>
+
 > [!TIP]
 > Review [an explanation of the process](#process-explanation) as well as the [technical breakdown](#technical-breakdown-of-the-hand-written-lookahead-scanner).
 
