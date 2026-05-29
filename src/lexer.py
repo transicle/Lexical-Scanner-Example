@@ -1,4 +1,4 @@
-from tokens import Token, TokenType
+from tokens import Token, TokenType, Keywords
 
 # If you are implementing a scanner in C or C++, things will look significantly different,
 #   however they will share identical execution.
@@ -50,7 +50,7 @@ class Lexer():
         return input.isalnum()
 
     # Although not in the example in itself, I'll show you how to support multi-lined comments :)
-    def skip_comment(self): # For languages like Python, we'd be able to peek only the current token,
+    def skip_comments(self): # For languages like Python, we'd be able to peek only the current token,
                             #   but for our sample language, we use `//`, so we need to peek 2 ahead.
         
         if self.peek() == "/" and self.peek_next() == "/":
@@ -80,7 +80,62 @@ class Lexer():
     ####### Primary scanner functions #######
 
     def lex(self):
-        self.skip_whitespace()
-        self.skip_comment()
+        tokens = []
 
-        pass
+        while True:
+            while True:
+                start_pos = self.position
+                self.skip_whitespace()
+                self.skip_comments()
+                if self.position == start_pos:
+                    break
+
+            curr = self.peek()
+            start_line = self.line
+            start_col = self.col
+
+            if curr == "\0":
+                tokens.append(Token(start_line, start_col, "", TokenType.EOF))
+                break
+
+            if curr.isalpha() or curr == "_":
+                start = self.position
+                self.consume()
+
+                while self.peek().isalnum() or self.peek() == "_":
+                    self.consume()
+
+                lexeme = self.source[start:self.position]
+                token_type = Keywords.get(lexeme, TokenType.IDENTIFIER)
+                tokens.append(Token(start_line, start_col, lexeme, token_type))
+                continue
+
+            if curr.isdigit():
+                start = self.position
+                self.consume()
+
+                while self.peek().isdigit():
+                    self.consume()
+
+                lexeme = self.source[start:self.position]
+                tokens.append(Token(start_line, start_col, lexeme, TokenType.INT))
+                continue
+
+            symbol_tokens = {
+                "(": TokenType.OPEN_PAREN,
+                ")": TokenType.CLOSE_PAREN,
+                "{": TokenType.OPEN_BRACE,
+                "}": TokenType.CLOSE_BRACE,
+                "=": TokenType.EQUALS,
+                ">": TokenType.GREATER_THAN,
+                ";": TokenType.SEMICOLON,
+            }
+
+            token_type = symbol_tokens.get(curr)
+            if token_type is None:
+                raise Exception(f"Unexpected character '{curr}' at line {self.line}, col {self.col}")
+
+            self.consume()
+            tokens.append(Token(start_line, start_col, curr, token_type))
+
+        return tokens

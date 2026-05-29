@@ -40,3 +40,11 @@ class Token():
         self.col = col
         self.lexeme = lexeme
         self.type = token_type
+
+
+# Let's create ourselfs a keywords map that we want to check again in the future.
+
+Keywords = {
+    "var": TokenType.VAR,
+    "func": TokenType.FUNC,
+}
