@@ -51,7 +51,8 @@ class Lexer():
 
     # Although not in the example in itself, I'll show you how to support multi-lined comments :)
     def skip_comment(self): # For languages like Python, we'd be able to peek only the current token,
-                          #   but for our sample language, we use `//`, so we need to peek 2 ahead.
+                            #   but for our sample language, we use `//`, so we need to peek 2 ahead.
+        
         if self.peek() == "/" and self.peek_next() == "/":
             self.consume()
             self.consume()
@@ -72,10 +73,14 @@ class Lexer():
             self.consume()
     
     def skip_whitespace(self):
-        pass
+        while self.peek() in [" ", "\t", "\r", "\n"]:
+            self.consume()
     
 
     ####### Primary scanner functions #######
 
-    def lex():
+    def lex(self):
+        self.skip_whitespace()
+        self.skip_comment()
+
         pass
